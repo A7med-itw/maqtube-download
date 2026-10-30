@@ -1,0 +1,248 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="دليل تثبيت واستخدام MaqTube على Android TV وGoogle TV. كود Downloader: 8921521">
+<title>دليل MaqTube</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Readex+Pro:wght@500;700&family=IBM+Plex+Sans+Arabic:wght@400;500;600&family=IBM+Plex+Mono:wght@500&display=swap">
+<style>
+html,body{margin:0}*,*::before,*::after{box-sizing:border-box}img{max-width:100%}
+/* Layout: one reading column in the order a parent acts (install → PIN → kids → daily use → help); the two profile colors carry the identity. */
+:root{
+  --bg:#F3F5F8; --surface:#FFFFFF; --ink:#141A26; --muted:#5A6375; --line:#DDE2EA;
+  --general:#2E4A7D; --general-soft:#E4EAF5;
+  --kids:#0E8C8C; --kids-soft:#DDF2F0; --sun:#F2B632;
+  --code-bg:#141A26; --code-ink:#FFFFFF;
+  --f-display:"Readex Pro","IBM Plex Sans Arabic",system-ui,sans-serif;
+  --f-body:"IBM Plex Sans Arabic","Geeza Pro",system-ui,sans-serif;
+  --f-mono:"IBM Plex Mono",ui-monospace,Menlo,monospace;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#0E131D; --surface:#161D2A; --ink:#EEF1F6; --muted:#9AA4B6; --line:#273041;
+  --general:#8FAEE6; --general-soft:#1D2A44; --kids:#4CC9C2; --kids-soft:#123236; --sun:#F2C152;
+  --code-bg:#05080D; --code-ink:#FFFFFF; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0E131D; --surface:#161D2A; --ink:#EEF1F6; --muted:#9AA4B6; --line:#273041;
+  --general:#8FAEE6; --general-soft:#1D2A44; --kids:#4CC9C2; --kids-soft:#123236; --sun:#F2C152;
+  --code-bg:#05080D; --code-ink:#FFFFFF; color-scheme:dark}
+
+body{background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:16px;line-height:1.8;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:40px 64px}
+main{max-width:760px;margin:0 auto;display:flex;flex-direction:column;gap:20px}
+h1,h2,h3{font-family:var(--f-display);text-wrap:balance;line-height:1.35;margin:0}
+p{margin:0}
+.ltr{direction:ltr;unicode-bidi:isolate}
+
+/* Header */
+header{display:flex;flex-direction:column;gap:10px;padding-bottom:8px}
+.brand{display:flex;align-items:center;gap:12px}
+.mark{width:56px;height:56px;border-radius:14px;flex-shrink:0;display:block;box-shadow:0 0 0 1px var(--line)}
+h1{font-size:34px;font-weight:700;letter-spacing:-.2px}
+.version{font-family:var(--f-mono);font-size:13px;color:var(--muted);border:1px solid var(--line);border-radius:999px;padding:2px 10px}
+.lead{color:var(--muted);font-size:17px;max-width:60ch}
+
+/* Code card */
+.code-card{background:var(--code-bg);color:var(--code-ink);border-radius:18px;padding:24px;display:flex;flex-wrap:wrap;gap:20px;align-items:center;justify-content:space-between}
+.code-card .label{font-size:14px;opacity:.75}
+.code{font-family:var(--f-mono);font-size:44px;letter-spacing:6px;line-height:1.2;direction:ltr}
+.code-actions{display:flex;flex-direction:column;gap:8px;align-items:flex-start}
+.btn{font:600 15px var(--f-body);background:var(--sun);color:#141A26;border:0;border-radius:10px;padding:10px 18px;cursor:pointer}
+.btn:focus-visible{outline:3px solid var(--kids);outline-offset:2px}
+.code-card small{opacity:.7;font-size:13px}
+.code-card a{color:var(--code-ink)}
+
+/* Sections */
+section{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:24px;display:flex;flex-direction:column;gap:14px}
+.sec-head{display:flex;align-items:center;gap:12px}
+.num{font-family:var(--f-display);font-weight:700;font-size:15px;width:32px;height:32px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;background:var(--general);color:var(--surface);flex-shrink:0}
+h2{font-size:21px;font-weight:700}
+.eyebrow{font-size:13px;color:var(--muted);letter-spacing:.3px}
+ol.steps{margin:0;padding:0;list-style:none;counter-reset:s;display:flex;flex-direction:column;gap:12px}
+ol.steps li{counter-increment:s;display:grid;grid-template-columns:28px 1fr;gap:10px}
+ol.steps li::before{content:counter(s);font-family:var(--f-mono);font-size:13px;width:26px;height:26px;border-radius:7px;border:1px solid var(--line);display:flex;align-items:center;justify-content:center;color:var(--muted);margin-top:3px}
+ol.steps li>div{min-width:0}
+.path{font-weight:600}
+.path .sep{color:var(--muted);font-weight:400;padding:0 4px}
+kbd{font-family:var(--f-mono);font-size:13px;border:1px solid var(--line);border-bottom-width:2px;border-radius:6px;padding:0 6px;background:var(--bg);direction:ltr;unicode-bidi:isolate}
+.note{font-size:14px;color:var(--muted);border-inline-start:3px solid var(--sun);padding-inline-start:12px}
+
+/* Profiles */
+.profiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px}
+.profile{border-radius:14px;padding:18px;display:flex;flex-direction:column;gap:10px;min-width:0}
+.profile.general{background:var(--general-soft)}
+.profile.kids{background:var(--kids-soft)}
+.profile h3{font-size:19px;display:flex;align-items:center;gap:10px}
+.swatch{width:18px;height:18px;border-radius:50%;flex-shrink:0}
+.general .swatch{background:var(--general)}
+.kids .swatch{background:linear-gradient(90deg,var(--kids) 50%,var(--sun) 50%)}
+.profile dl{margin:0;display:grid;grid-template-columns:auto 1fr;gap:4px 12px;font-size:15px}
+.profile dt{color:var(--muted)}
+.profile dd{margin:0}
+.allow{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px}
+.allow ul{margin:0;padding-inline-start:20px}
+.allow h3{font-size:16px;margin-bottom:4px}
+.yes h3{color:var(--kids)}
+.no h3{color:var(--muted)}
+
+/* Tables */
+.table-wrap{overflow-x:auto}
+table{width:100%;border-collapse:collapse;font-size:15px}
+th{text-align:start;font-weight:600;color:var(--muted);font-size:13px;padding:6px 8px;border-bottom:1px solid var(--line)}
+td{padding:10px 8px;border-bottom:1px solid var(--line);vertical-align:top}
+tr:last-child td{border-bottom:0}
+td.num-cell{font-family:var(--f-mono);font-variant-numeric:tabular-nums;white-space:nowrap}
+.faq td:first-child{font-weight:600;width:36%}
+
+footer{color:var(--muted);font-size:13px;text-align:center;padding-top:8px}
+@media (max-width:480px){h1{font-size:28px}.code{font-size:36px;letter-spacing:4px}section{padding:18px}}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+
+<main dir="rtl" lang="ar">
+  <header>
+    <div class="brand">
+      <img class="mark" src="data:image/webp;base64,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" alt="أيقونة MaqTube" width="56" height="56">
+      <h1>دليل MaqTube</h1>
+      <span class="version ltr">v1.3.0</span>
+    </div>
+    <p class="lead">يوتيوب لتلفزيونات Android TV وGoogle TV، فيه ملف للكبار وملف مغلق للأطفال محمي برمز PIN. هذا الدليل يأخذك من التثبيت إلى تسليم التلفزيون لأطفالك.</p>
+  </header>
+
+  <div class="code-card">
+    <div>
+      <div class="label">كود التثبيت في تطبيق Downloader</div>
+      <div class="code" id="code">8921521</div>
+      <small>أو الرابط المختصر <a class="ltr" href="https://aftv.news/8921521">aftv.news/8921521</a></small>
+    </div>
+    <div class="code-actions">
+      <button class="btn" id="copy" type="button">نسخ الكود</button>
+      <small>الكود ثابت ويعطي دائماً أحدث إصدار.</small>
+    </div>
+  </div>
+
+  <section>
+    <div class="sec-head"><span class="num">1</span><div><h2>التثبيت</h2><div class="eyebrow">مرة واحدة، حوالي 5 دقائق</div></div></div>
+    <ol class="steps">
+      <li><div>ثبّت تطبيق <b>Downloader</b> من متجر Google Play على التلفزيون.</div></li>
+      <li><div>فعّل وضع المطوّر:
+        <span class="path">الإعدادات<span class="sep">←</span>النظام<span class="sep">←</span>حول</span>،
+        ثم اضغط على <b>«إصدار نظام Android TV»</b> سبع مرات حتى تظهر رسالة «أنت الآن مطوّر».</div></li>
+      <li><div>اسمح لـ Downloader بتثبيت التطبيقات:
+        <span class="path">الإعدادات<span class="sep">←</span>التطبيقات<span class="sep">←</span>الأمان والقيود<span class="sep">←</span>مصادر غير معروفة</span>،
+        ثم فعّل <b>Downloader</b>.</div></li>
+      <li><div>افتح Downloader، واكتب الكود <kbd>8921521</kbd> في خانة الرابط، ثم اضغط <kbd>Go</kbd>.</div></li>
+      <li><div>بعد التنزيل اضغط <kbd>Install</kbd> ثم <kbd>Open</kbd>.</div></li>
+    </ol>
+    <p class="note">أسماء القوائم تختلف قليلاً بين الأجهزة. إن لم تجدها، ابحث في الإعدادات عن «مصادر غير معروفة» أو «Install unknown apps».</p>
+  </section>
+
+  <section>
+    <div class="sec-head"><span class="num">2</span><div><h2>أول تشغيل: رمز PIN</h2><div class="eyebrow">يحمي الحساب العام</div></div></div>
+    <ol class="steps">
+      <li><div>يطلب منك التطبيق إنشاء رمز للحساب العام، من <b>4 إلى 8 أرقام</b>.</div></li>
+      <li><div>أدخل الأرقام بأسهم الريموت وزر <kbd>OK</kbd> على لوحة الأرقام، ثم اضغط <b>✓</b>.</div></li>
+      <li><div>أعد إدخال الرمز للتأكيد.</div></li>
+    </ol>
+    <p class="note">احفظ الرمز في مكان آمن ولا تخبر به الأطفال. ستحتاجه لفتح الحساب العام وللخروج من وضع الأطفال.</p>
+  </section>
+
+  <section>
+    <div class="sec-head"><span class="num">3</span><div><h2>الملفّان</h2><div class="eyebrow">شاشة «مَن يشاهد؟» تظهر عند كل تشغيل</div></div></div>
+    <div class="profiles">
+      <div class="profile general">
+        <h3><span class="swatch" aria-hidden="true"></span>العام</h3>
+        <dl>
+          <dt>لمن</dt><dd>الكبار</dd>
+          <dt>اللون</dt><dd>أزرق مسائي هادئ</dd>
+          <dt>الدخول</dt><dd>برمز PIN (يمكن إيقافه)</dd>
+          <dt>المحتوى</dt><dd>يوتيوب كاملاً</dd>
+        </dl>
+      </div>
+      <div class="profile kids">
+        <h3><span class="swatch" aria-hidden="true"></span>الأطفال</h3>
+        <dl>
+          <dt>لمن</dt><dd>الأطفال</dd>
+          <dt>اللون</dt><dd>أزرق بحيري مع أصفر مشمس</dd>
+          <dt>الدخول</dt><dd>مباشرة بدون رمز</dd>
+          <dt>المحتوى</dt><dd>الاشتراكات وقوائم التشغيل فقط</dd>
+        </dl>
+      </div>
+    </div>
+    <p>لون الملف النشط يظهر في القوائم وإطار التحديد، فتعرف دائماً أي ملف مفتوح.</p>
+  </section>
+
+  <section>
+    <div class="sec-head"><span class="num">4</span><div><h2>جهّز التلفزيون للأطفال</h2><div class="eyebrow">قبل أن تسلّمهم الريموت</div></div></div>
+    <ol class="steps">
+      <li><div>ادخل إلى <b>العام</b>، واشترك في القنوات المناسبة لأطفالك، أو جهّز لهم قوائم تشغيل.</div></li>
+      <li><div>ارجع إلى «مَن يشاهد؟» واختر <b>الأطفال</b>. تأكد أن القنوات وقوائم التشغيل ظاهرة.</div></li>
+      <li><div>سلّم الريموت. لن يستطيع الطفل الخروج إلى العام بدون الرمز.</div></li>
+    </ol>
+    <div class="allow">
+      <div class="yes"><h3>متاح في وضع الأطفال</h3><ul><li>الاشتراكات</li><li>قوائم التشغيل</li><li>الملف النشط وزر «التبديل إلى العام» (بالرمز)</li></ul></div>
+      <div class="no"><h3>مغلق في وضع الأطفال</h3><ul><li>البحث والبحث الصوتي</li><li>روابط يوتيوب من تطبيقات أخرى أو من شاشة Google TV الرئيسية</li><li>باقي الإعدادات</li></ul></div>
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-head"><span class="num">5</span><div><h2>الاستخدام اليومي</h2></div></div>
+    <div class="table-wrap"><table>
+      <thead><tr><th>تريد أن</th><th>الطريقة</th></tr></thead>
+      <tbody>
+        <tr><td>تنتقل من الأطفال إلى العام</td><td><span class="path">الإعدادات<span class="sep">←</span>التبديل إلى العام</span>، ثم أدخل الرمز.</td></tr>
+        <tr><td>تغيّر الرمز</td><td>من العام: <span class="path">الإعدادات<span class="sep">←</span>عام<span class="sep">←</span>ملفات MaqTube<span class="sep">←</span>تغيير الرمز</span></td></tr>
+        <tr><td>توقف الرمز أو تحدد متى يُقفل العام مجدداً</td><td>من نفس القائمة: ملفات MaqTube</td></tr>
+        <tr><td>تعرف إصدارك</td><td>شاشة <b>حول</b>: إصدار MaqTube، وإصدار SmartTube المبني عليه، وتاريخ البناء.</td></tr>
+        <tr><td>تحدّث التطبيق</td><td>يعرض عليك التطبيق التحديث تلقائياً، أو: <span class="path">الإعدادات<span class="sep">←</span>التحقق من التحديثات</span>. إعداداتك ورمزك يبقيان كما هما.</td></tr>
+      </tbody>
+    </table></div>
+  </section>
+
+  <section>
+    <div class="sec-head"><span class="num">6</span><div><h2>إذا أُدخل رمز خاطئ</h2><div class="eyebrow">حماية من التخمين</div></div></div>
+    <p>بعد <b>5 محاولات خاطئة</b> يتوقف الإدخال مؤقتاً، وتطول المدة مع كل إيقاف جديد:</p>
+    <div class="table-wrap"><table>
+      <thead><tr><th>الإيقاف</th><th>مدة الانتظار</th></tr></thead>
+      <tbody>
+        <tr><td>الأول</td><td class="num-cell">30 ثانية</td></tr>
+        <tr><td>الثاني</td><td class="num-cell">دقيقة</td></tr>
+        <tr><td>الثالث</td><td class="num-cell">دقيقتان</td></tr>
+        <tr><td>الرابع</td><td class="num-cell">5 دقائق</td></tr>
+        <tr><td>الخامس فأكثر</td><td class="num-cell">7 دقائق</td></tr>
+      </tbody>
+    </table></div>
+    <p class="note">نسيت الرمز؟ تواصل مع المطوّر؛ يعيّن لك رمزاً جديداً دون حذف التطبيق أو إعداداتك. الرمز محفوظ على التلفزيون مشفّراً.</p>
+  </section>
+
+  <section>
+    <div class="sec-head"><span class="num">?</span><div><h2>حل المشاكل</h2></div></div>
+    <div class="table-wrap"><table class="faq">
+      <tbody>
+        <tr><td>التطبيق لا يظهر بعد التثبيت</td><td>إذا كان للتلفزيون أكثر من مستخدم في Google TV، فربما ثُبّت في ملف آخر. بدّل إلى ملفك من صورة الحساب أعلى الشاشة، وثبّته من جديد بالكود.</td></tr>
+        <tr><td>رسالة «تم حظر التثبيت»</td><td>فعّل «مصادر غير معروفة» لتطبيق Downloader (الخطوة 3 في التثبيت).</td></tr>
+        <tr><td>Downloader لا يجد الكود</td><td>تأكد من الرقم <kbd>8921521</kbd> ومن اتصال التلفزيون بالإنترنت، أو اكتب الرابط <span class="ltr">aftv.news/8921521</span>.</td></tr>
+        <tr><td>التحديث لا يعمل</td><td>جرّب «التحقق من التحديثات» من الإعدادات، أو نزّله من جديد بنفس الكود. يُثبَّت فوق القديم مع بقاء إعداداتك.</td></tr>
+        <tr><td>هل أحتاج حساب جوجل؟</td><td>لا. تقدر تشاهد بدون تسجيل دخول، أو تربط حسابك من الإعدادات لتظهر اشتراكاتك.</td></tr>
+      </tbody>
+    </table></div>
+  </section>
+
+  <footer>MaqTube <span class="ltr">v1.3.0</span> · مبني على SmartTube <span class="ltr">32.68s</span> · تطوير المقبالي</footer>
+</main>
+
+<script>
+(function(){
+  var btn=document.getElementById('copy'), code=document.getElementById('code');
+  btn.addEventListener('click',function(){
+    function done(){btn.textContent='تم النسخ';setTimeout(function(){btn.textContent='نسخ الكود'},1800)}
+    function fallback(){var r=document.createRange();r.selectNodeContents(code);var s=getSelection();s.removeAllRanges();s.addRange(r);btn.textContent='الكود محدد'}
+    try{navigator.clipboard.writeText(code.textContent.trim()).then(done,fallback)}catch(e){fallback()}
+  });
+})();
+</script>
+
+</body>
+</html>
